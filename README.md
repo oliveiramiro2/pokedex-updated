@@ -33,10 +33,10 @@ A Pokédex using the poke API to check how much my react skills have improved th
 
 ## Installation
 
-Install pokedexUpdated with npm or yarn
+Install pokedex-updated with npm or yarn
 
 ```bash
-  • cd pokedexUpdated
+  • cd pokedex-updated
   • npm or yarn install
   • npm or yarn start
 ```
