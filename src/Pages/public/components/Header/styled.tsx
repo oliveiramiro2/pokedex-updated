@@ -21,7 +21,11 @@ export const SHeaderContain = styledC.default.header`
     }
 `;
 
-export const SContainSwitch = styledC.default.div``;
+export const SContainSwitch = styledC.default.div`
+    @media(max-width: 1000px) {
+        margin-right: 20px;
+    }
+`;
 
 export const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     width: 62,

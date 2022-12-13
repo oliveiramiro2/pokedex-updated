@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Skeleton } from "@mui/material";
+import { Skeleton, ButtonGroup, Button } from "@mui/material";
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 import Header from "../components/Header";
@@ -10,6 +10,7 @@ import {
     SContainHome,
     SContainTitle,
     STitle,
+    SContainPagination,
 } from "./styled";
 
 const numberCards: number[] = [1, 2, 3, 4, 5, 6];
@@ -109,51 +110,55 @@ const HomePublic: React.FC = () => {
                           <Skeleton
                               key={value}
                               variant="rectangular"
-                              width="25vw"
+                              width={350}
                               height={500}
                               style={{ margin: "50px" }}
                           />
                       ))}
             </SContainAllCards>
-            <FaArrowAltCircleLeft
-                onClick={() => setingPage(-1)}
-                size={40}
-                color="#f00"
-                style={{ cursor: "pointer" }}
-            />
-            {page - 3 > 0 && (
-                <button type="button" onClick={() => setingPage(-3)}>
-                    {page - 3}
-                </button>
-            )}
-            {page - 2 > 0 && (
-                <button type="button" onClick={() => setingPage(-2)}>
-                    {page - 2}
-                </button>
-            )}
-            {page - 1 > 0 && (
-                <button type="button" onClick={() => setingPage(-1)}>
-                    {page - 1}
-                </button>
-            )}
-            <button type="button" disabled>
-                {page}
-            </button>
-            <button type="button" onClick={() => setingPage(1)}>
-                {page + 1}
-            </button>
-            <button type="button" onClick={() => setingPage(2)}>
-                {page + 2}
-            </button>
-            <button type="button" onClick={() => setingPage(3)}>
-                {page + 3}
-            </button>
-            <FaArrowAltCircleRight
-                onClick={() => setingPage(1)}
-                size={40}
-                color="#f00"
-                style={{ cursor: "pointer" }}
-            />
+            <SContainPagination>
+                <FaArrowAltCircleLeft
+                    onClick={() => setingPage(-1)}
+                    size={40}
+                    color="#f00"
+                    style={{ cursor: "pointer" }}
+                />
+                <ButtonGroup variant="contained" aria-label="button group">
+                    {page - 3 >= 0 && (
+                        <Button color="error" onClick={() => setingPage(-3)}>
+                            {page - 2}
+                        </Button>
+                    )}
+                    {page - 2 >= 0 && (
+                        <Button color="error" onClick={() => setingPage(-2)}>
+                            {page - 1}
+                        </Button>
+                    )}
+                    {page - 1 >= 0 && (
+                        <Button color="error" onClick={() => setingPage(-1)}>
+                            {page}
+                        </Button>
+                    )}
+                    <Button color="error" disabled>
+                        {page + 1}
+                    </Button>
+                    <Button color="error" onClick={() => setingPage(1)}>
+                        {page + 2}
+                    </Button>
+                    <Button color="error" onClick={() => setingPage(2)}>
+                        {page + 3}
+                    </Button>
+                    <Button color="error" onClick={() => setingPage(3)}>
+                        {page + 4}
+                    </Button>
+                </ButtonGroup>
+                <FaArrowAltCircleRight
+                    onClick={() => setingPage(1)}
+                    size={40}
+                    color="#f00"
+                    style={{ cursor: "pointer" }}
+                />
+            </SContainPagination>
         </SContainHome>
     );
 };
