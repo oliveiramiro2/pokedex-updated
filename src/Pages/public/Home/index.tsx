@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import API from "../../../Services/api";
+import { Skeleton } from "@mui/material";
 
 import Header from "../components/Header";
+import API from "../../../Services/api";
 import { SContainAllCards, SContainCard, SContainHome } from "./styled";
 
 const numberCards: number[] = [1, 2, 3, 4, 5, 6];
@@ -43,15 +44,21 @@ const HomePublic: React.FC = () => {
         <SContainHome>
             <Header />
             <SContainAllCards>
-                {pokeData.length === 6 ? (
-                    pokeData.map(value => (
-                        <SContainCard key={value.id}>
-                            <p>{value?.name}</p>
-                        </SContainCard>
-                    ))
-                ) : (
-                    <div>wait</div>
-                )}
+                {pokeData.length === 6
+                    ? pokeData.map(value => (
+                          <SContainCard key={value.id}>
+                              <p>{value?.name}</p>
+                          </SContainCard>
+                      ))
+                    : numberCards.map((value) => (
+                          <Skeleton
+                              key={value}
+                              variant="rectangular"
+                              width="25vw"
+                              height={500}
+                              style={{margin: '50px'}}
+                          />
+                      ))}
             </SContainAllCards>
         </SContainHome>
     );
