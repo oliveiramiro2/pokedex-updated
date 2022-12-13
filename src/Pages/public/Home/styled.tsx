@@ -25,4 +25,8 @@ export const SContainCard = styled.div`
     border-radius: 20px;
     border: 3px solid ${props => props.theme.red};
     background: ${props => props.theme.colorSecondary};
+
+    & p {
+        color: ${props => props.theme.colorPrimary};
+    }
 `
