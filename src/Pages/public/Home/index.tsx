@@ -1,5 +1,14 @@
 import React from "react";
 
-const HomePublic: React.FC = () => <div>index</div>;
+import Header from "../components/Header";
+import { SContainHome } from "./styled";
+
+
+const HomePublic: React.FC = () => (
+    <SContainHome>
+        <Header />
+        index
+    </SContainHome>
+);
 
 export default HomePublic;
