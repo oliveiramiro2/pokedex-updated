@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import PokedexRoutes from "./Routes";
+import ThemeChangeProvider from "./Services/context";
 import ThemePokedex from "./Services/theme";
 
 const root = ReactDOM.createRoot(
@@ -12,11 +13,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <BrowserRouter>
-        <ThemePokedex>
-            <React.StrictMode>
-                <PokedexRoutes />
-            </React.StrictMode>
-        </ThemePokedex>
+        <ThemeChangeProvider>
+            <ThemePokedex>
+                <React.StrictMode>
+                    <PokedexRoutes />
+                </React.StrictMode>
+            </ThemePokedex>
+        </ThemeChangeProvider>
     </BrowserRouter>
 );
 

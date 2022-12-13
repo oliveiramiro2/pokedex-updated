@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import { ThemeProvider } from "styled-components";
+import { ThemeContext } from "../context";
 
 interface ITheme {
     colorPrimary: "#eee" | "#1b1b1b";
@@ -16,8 +17,15 @@ const themeDark: ITheme = {
     colorSecondary: "#eee",
 };
 
-const ThemePokedex: React.FC<any> = ({ children }) => (
-    <ThemeProvider theme={themeLight}>{children}</ThemeProvider>
-);
+const ThemePokedex: React.FC<any> = ({ children }) => {
+    const { themeSelect } = useContext(ThemeContext);
+
+    const themeSeleted = useMemo(
+        () => (themeSelect ? themeDark : themeLight),
+        [themeSelect]
+    );
+
+    return <ThemeProvider theme={themeSeleted}>{children}</ThemeProvider>;
+};
 
 export default ThemePokedex;
