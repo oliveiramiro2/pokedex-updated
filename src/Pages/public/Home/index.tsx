@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Skeleton } from "@mui/material";
+import { FaArrowAltCircleRight } from "react-icons/fa";
 
 import Header from "../components/Header";
 import API from "../../../Services/api";
@@ -37,20 +38,20 @@ const aux: IPokeData[] = [];
 const HomePublic: React.FC = () => {
     const [pokeData, setPokeData] = useState<IPokeData[]>([] as IPokeData[]);
     const [, setForceRenderer] = useState<IPokeData[]>([] as IPokeData[]);
-    const [page] = useState<number>(1);
+    const [page, setPage] = useState<number>(7);
 
     useEffect(() => {
         if (makeRequest) {
             makeRequest = false;
-            aux.length = 0;
             numberCards.forEach(async value => {
-                const { data } = await API.get(`${page * value}`);
+                const { data } = await API.get(`${page * 6 + value}`);
                 aux.push(await data);
                 if (aux.length === 6) {
                     aux.sort((a, b) => {
                         if (a.id > b.id) return 1;
                         return -1;
                     });
+                    console.log(aux);
                     setPokeData([...aux]);
                     setForceRenderer(pokeData);
                     setForceRenderer([]);
@@ -58,6 +59,14 @@ const HomePublic: React.FC = () => {
             });
         }
     }, [page]);
+
+    const nextPage = () => {
+        aux.length = 0;
+        makeRequest = true;
+        window.scrollTo({ top: 0 });
+        setPokeData([]);
+        setPage(prev => prev + 1);
+    };
 
     return (
         <SContainHome>
@@ -105,6 +114,11 @@ const HomePublic: React.FC = () => {
                           />
                       ))}
             </SContainAllCards>
+            <FaArrowAltCircleRight
+                onClick={() => nextPage()}
+                size={40}
+                color="#f00"
+            />
         </SContainHome>
     );
 };

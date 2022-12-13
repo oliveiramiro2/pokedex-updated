@@ -11,7 +11,7 @@ const selectBackground: Function = (type: string) => {
         case "electric":
             return "yellow";
         case "fighting":
-            return "golden";
+            return "gold";
         case "ice":
             return "aquamarine";
         case "psychic":
