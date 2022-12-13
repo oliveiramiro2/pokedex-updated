@@ -17,6 +17,7 @@ export const SHeaderContain = styledC.default.header`
 
     & span {
         font-weight: bold;
+        font-family: Pacifico;
     }
 `;
 
