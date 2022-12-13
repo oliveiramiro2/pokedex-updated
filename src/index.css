@@ -16,3 +16,13 @@ code {
     font-family: Pacifico;
     src: url(../public/fonts/Pacifico.ttf);
 }
+
+@font-face {
+    font-family: "Great Vibes";
+    src: url(../public/fonts/GreatVibes.ttf);
+}
+
+@font-face {
+    font-family: "Rubik Vinyl";
+    src: url(../public/fonts/RubikVinyl.ttf);
+}

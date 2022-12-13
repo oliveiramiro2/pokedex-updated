@@ -3,13 +3,32 @@ import { Skeleton } from "@mui/material";
 
 import Header from "../components/Header";
 import API from "../../../Services/api";
-import { SContainAllCards, SContainCard, SContainHome } from "./styled";
+import {
+    SContainAllCards,
+    SContainCard,
+    SContainHome,
+    SContainTitle,
+    STitle,
+} from "./styled";
 
 const numberCards: number[] = [1, 2, 3, 4, 5, 6];
+
+interface ITypes {
+    type: {
+        name: string;
+    };
+}
 
 interface IPokeData {
     name: string;
     id: number;
+    sprites: {
+        front_default: string;
+        back_default: string;
+        front_shiny: string;
+        back_shiny: string;
+    };
+    types: ITypes[];
 }
 
 let makeRequest = true;
@@ -43,20 +62,46 @@ const HomePublic: React.FC = () => {
     return (
         <SContainHome>
             <Header />
+            <SContainTitle>
+                <STitle>Pokémons</STitle>
+            </SContainTitle>
             <SContainAllCards>
                 {pokeData.length === 6
                     ? pokeData.map(value => (
-                          <SContainCard key={value.id}>
+                          <SContainCard
+                              color={value.types[0].type.name}
+                              key={value.id}
+                          >
                               <p>{value?.name}</p>
+                              <article>
+                                  <img
+                                      alt="sprite"
+                                      src={value.sprites.front_default}
+                                  />
+                                  <img
+                                      alt="sprite"
+                                      src={value.sprites.back_default}
+                                  />
+                              </article>
+                              <article>
+                                  <img
+                                      alt="sprite"
+                                      src={value.sprites.front_shiny}
+                                  />
+                                  <img
+                                      alt="sprite"
+                                      src={value.sprites.back_shiny}
+                                  />
+                              </article>
                           </SContainCard>
                       ))
-                    : numberCards.map((value) => (
+                    : numberCards.map(value => (
                           <Skeleton
                               key={value}
                               variant="rectangular"
                               width="25vw"
                               height={500}
-                              style={{margin: '50px'}}
+                              style={{ margin: "50px" }}
                           />
                       ))}
             </SContainAllCards>
