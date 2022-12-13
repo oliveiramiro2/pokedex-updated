@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { ThemeProvider } from "styled-components";
 
 interface ITheme {
@@ -16,22 +16,8 @@ const themeDark: ITheme = {
     colorSecondary: "#eee",
 };
 
-let changeTheme: boolean = false;
-
-export const themeChange: Function = (value: boolean) => {
-    changeTheme = value;
-};
-
-const ThemePokedex: React.FC<any> = ({ children }) => {
-    const theme = useMemo(() => (
-        changeTheme ? themeDark : themeLight
-    ), [changeTheme])
-
-    return (
-        <ThemeProvider theme={theme}>
-            {children}
-        </ThemeProvider>
-    );
-};
+const ThemePokedex: React.FC<any> = ({ children }) => (
+    <ThemeProvider theme={themeLight}>{children}</ThemeProvider>
+);
 
 export default ThemePokedex;
