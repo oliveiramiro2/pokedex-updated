@@ -5,16 +5,19 @@ import { ThemeContext } from "../context";
 interface ITheme {
     colorPrimary: "#eee" | "#1b1b1b";
     colorSecondary: "#eee" | "#1b1b1b";
+    red: "#df0000";
 }
 
 const themeLight: ITheme = {
     colorPrimary: "#eee",
     colorSecondary: "#1b1b1b",
+    red: "#df0000",
 };
 
 const themeDark: ITheme = {
     colorPrimary: "#1b1b1b",
     colorSecondary: "#eee",
+    red: "#df0000",
 };
 
 const ThemePokedex: React.FC<any> = ({ children }) => {
