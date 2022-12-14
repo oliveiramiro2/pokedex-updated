@@ -26,6 +26,7 @@ interface ITypes {
 interface IPokeData {
     name: string;
     id: number;
+    url?: string;
     sprites: {
         front_default: string;
         back_default: string;
@@ -96,10 +97,17 @@ const HomePublic: React.FC = () => {
         }
     };
 
-    const openModal: Function = (value: IPokeData) => {
-        setInfoData(value);
-        setModal(true);
-    }
+    const openModal: Function = async (value: IPokeData) => {
+        if (value.sprites !== undefined) {
+            setInfoData(value);
+            setModal(true);
+        } else if (value.url !== undefined) {
+            setInfoData({} as IPokeData);
+            setModal(true);
+            const { data } = await API.get(`${value.url.slice(34, -1)}`);
+            setInfoData(data);
+        }
+    };
 
     return (
         <SContainHome>
@@ -241,7 +249,7 @@ const HomePublic: React.FC = () => {
             )}
             <Footer />
             <Modal open={modal} onClose={() => setModal(false)}>
-                <InfoPoke info={{...infoData}} setModal={setModal} />
+                <InfoPoke info={{ ...infoData }} setModal={setModal} />
             </Modal>
         </SContainHome>
     );

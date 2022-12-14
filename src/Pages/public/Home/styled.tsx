@@ -17,11 +17,11 @@ const selectBackground: Function = (type: string) => {
         case "psychic":
             return "darkgreen";
         case "poison":
-            return "purple";
+            return "violet";
         case "normal":
             return "brown";
         case "dark":
-            return "#332c2c";
+            return "black";
         case "ground":
             return "orange";
         case "steel":
@@ -33,13 +33,13 @@ const selectBackground: Function = (type: string) => {
         case "flying":
             return "cyan";
         case "ghost":
-            return "#530e53";
+            return "purple";
         case "dragon":
             return "aquamarine";
         case "fairy":
             return "pink";
         default:
-            return "#ad9e9e62";
+            return "#000000";
     }
 };
 
@@ -104,6 +104,8 @@ export const SContainCard = styled.div`
         color: ${props => props.theme.colorPrimary};
         font-family: "Rubik Vinyl";
         font-size: 30px;
+        font-weight: bold;
+        text-shadow: 2px 2px  ${props => props.theme.colorSecondary};
     }
 `;
 
