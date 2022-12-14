@@ -26,6 +26,7 @@
         "import/extensions": [0, { "tsx": "never", "js": "never" }],
         "import/no-unresolved": 0,
         "import/prefer-default-export": 0,
-        "react/react-in-jsx-scope": 0
+        "react/react-in-jsx-scope": 0,
+        "no-nested-ternary": 0
     }
 }

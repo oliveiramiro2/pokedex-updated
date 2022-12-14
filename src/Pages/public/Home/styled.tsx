@@ -39,7 +39,7 @@ const selectBackground: Function = (type: string) => {
         case "fairy":
             return "pink";
         default:
-            return "hotpink";
+            return "#ad9e9e62";
     }
 };
 

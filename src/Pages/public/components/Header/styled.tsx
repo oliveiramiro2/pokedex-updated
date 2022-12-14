@@ -21,6 +21,19 @@ export const SHeaderContain = styledC.default.header`
     }
 `;
 
+export const SContainSearch = styledC.default.div`
+
+    & input {
+        color: ${props => props.theme.colorPrimary};
+        border-bottom: 1px solid ${props => props.theme.colorPrimary};
+        padding-left: 5px;
+    }
+
+    & label {
+        color: ${props => props.theme.colorPrimary};
+    }
+`;
+
 export const SContainSwitch = styledC.default.div`
     @media(max-width: 1000px) {
         margin-right: 20px;

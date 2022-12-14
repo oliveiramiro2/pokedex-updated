@@ -33,13 +33,25 @@ interface IPokeData {
     types: ITypes[];
 }
 
+interface IPokeAllData {
+    name: string;
+    url: string;
+}
+
 let makeRequest = true;
 const aux: IPokeData[] = [];
 
 const HomePublic: React.FC = () => {
     const [pokeData, setPokeData] = useState<IPokeData[]>([] as IPokeData[]);
+    const [pokeAllData, setPokeAllData] = useState<IPokeAllData[]>(
+        [] as IPokeAllData[]
+    );
     const [, setForceRenderer] = useState<IPokeData[]>([] as IPokeData[]);
+    const [, setForceRendererAll] = useState<IPokeAllData[]>(
+        [] as IPokeAllData[]
+    );
     const [page, setPage] = useState<number>(0);
+    const [search, setSearch] = useState<string>("");
 
     useEffect(() => {
         if (makeRequest) {
@@ -60,6 +72,16 @@ const HomePublic: React.FC = () => {
         }
     }, [page]);
 
+    useEffect(() => {
+        if (search.length > 0 && pokeAllData.length === 0) {
+            API.get("?limit=1118").then(({ data }) => {
+                setPokeAllData(data.results);
+                setForceRendererAll(pokeAllData);
+                setForceRendererAll([]);
+            });
+        }
+    }, [search]);
+
     const setingPage: Function = (value: number) => {
         if (page + value >= 0) {
             aux.length = 0;
@@ -72,93 +94,140 @@ const HomePublic: React.FC = () => {
 
     return (
         <SContainHome>
-            <Header />
+            <Header setSearch={setSearch} />
             <SContainTitle>
                 <STitle>Pokémons</STitle>
             </SContainTitle>
             <SContainAllCards>
-                {pokeData.length === 6
-                    ? pokeData.map(value => (
-                          <SContainCard
-                              color={value.types[0].type.name}
-                              key={value.id}
-                          >
-                              <p>{value?.name}</p>
-                              <article>
-                                  <img
-                                      alt="sprite"
-                                      src={value.sprites.front_default}
+                {search.length === 0 ? (
+                    pokeData.length === 6 ? (
+                        pokeData.map(value => (
+                            <SContainCard
+                                color={value.types[0].type.name}
+                                key={value.id}
+                            >
+                                <p>{value?.name}</p>
+                                <article>
+                                    <img
+                                        alt="sprite"
+                                        src={value.sprites.front_default}
+                                    />
+                                    <img
+                                        alt="sprite"
+                                        src={value.sprites.back_default}
+                                    />
+                                </article>
+                                <article>
+                                    <img
+                                        alt="sprite"
+                                        src={value.sprites.front_shiny}
+                                    />
+                                    <img
+                                        alt="sprite"
+                                        src={value.sprites.back_shiny}
+                                    />
+                                </article>
+                            </SContainCard>
+                        ))
+                    ) : (
+                        numberCards.map(value => (
+                            <Skeleton
+                                key={value}
+                                variant="rectangular"
+                                width={350}
+                                height={500}
+                                style={{ margin: "50px" }}
+                            />
+                        ))
+                    )
+                ) : (
+                    <SContainAllCards>
+                        {pokeAllData.length > 0
+                            ? pokeAllData.map(
+                                  value =>
+                                      value.name.includes(search) && (
+                                          <SContainCard
+                                              key={value.url.slice(34, -1)}
+                                          >
+                                              <p>{value?.name}</p>
+                                              <article>
+                                                  <img
+                                                      alt="sprite"
+                                                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${value.url.slice(
+                                                          34,
+                                                          -1
+                                                      )}.png`}
+                                                  />
+                                              </article>
+                                          </SContainCard>
+                                      )
+                              )
+                            : numberCards.map(value => (
+                                  <Skeleton
+                                      key={value}
+                                      variant="rectangular"
+                                      width={350}
+                                      height={500}
+                                      style={{ margin: "50px" }}
                                   />
-                                  <img
-                                      alt="sprite"
-                                      src={value.sprites.back_default}
-                                  />
-                              </article>
-                              <article>
-                                  <img
-                                      alt="sprite"
-                                      src={value.sprites.front_shiny}
-                                  />
-                                  <img
-                                      alt="sprite"
-                                      src={value.sprites.back_shiny}
-                                  />
-                              </article>
-                          </SContainCard>
-                      ))
-                    : numberCards.map(value => (
-                          <Skeleton
-                              key={value}
-                              variant="rectangular"
-                              width={350}
-                              height={500}
-                              style={{ margin: "50px" }}
-                          />
-                      ))}
+                              ))}
+                    </SContainAllCards>
+                )}
             </SContainAllCards>
-            <SContainPagination>
-                <FaArrowAltCircleLeft
-                    onClick={() => setingPage(-1)}
-                    size={40}
-                    color="#f00"
-                    style={{ cursor: "pointer" }}
-                />
-                <ButtonGroup variant="contained" aria-label="button group">
-                    {page - 3 >= 0 && (
-                        <Button color="error" onClick={() => setingPage(-3)}>
-                            {page - 2}
+            {pokeData.length === 6 && search.length === 0 && (
+                <SContainPagination>
+                    <FaArrowAltCircleLeft
+                        onClick={() => setingPage(-1)}
+                        size={40}
+                        color="#f00"
+                        style={{ cursor: "pointer" }}
+                    />
+                    <ButtonGroup variant="contained" aria-label="button group">
+                        {page - 3 >= 0 && (
+                            <Button
+                                color="error"
+                                onClick={() => setingPage(-3)}
+                            >
+                                {page - 2}
+                            </Button>
+                        )}
+                        {page - 2 >= 0 && (
+                            <Button
+                                color="error"
+                                onClick={() => setingPage(-2)}
+                            >
+                                {page - 1}
+                            </Button>
+                        )}
+                        {page - 1 >= 0 && (
+                            <Button
+                                color="error"
+                                onClick={() => setingPage(-1)}
+                            >
+                                {page}
+                            </Button>
+                        )}
+                        <Button color="error" disabled>
+                            {page + 1}
                         </Button>
-                    )}
-                    {page - 2 >= 0 && (
-                        <Button color="error" onClick={() => setingPage(-2)}>
-                            {page - 1}
+                        <Button color="error" onClick={() => setingPage(1)}>
+                            {page + 2}
                         </Button>
-                    )}
-                    {page - 1 >= 0 && (
-                        <Button color="error" onClick={() => setingPage(-1)}>
-                            {page}
+                        <Button color="error" onClick={() => setingPage(2)}>
+                            {page + 3}
                         </Button>
-                    )}
-                    <Button color="error" disabled>
-                        {page + 1}
-                    </Button>
-                    <Button color="error" onClick={() => setingPage(1)}>
-                        {page + 2}
-                    </Button>
-                    <Button color="error" onClick={() => setingPage(2)}>
-                        {page + 3}
-                    </Button>
-                    <Button color="error" onClick={() => setingPage(3)}>
-                        {page + 4}
-                    </Button>
-                </ButtonGroup>
-                <FaArrowAltCircleRight
-                    onClick={() => setingPage(1)}
-                    size={40}
-                    color="#f00"
-                    style={{ cursor: "pointer" }}
-                />
-            </SContainPagination>
+                        <Button color="error" onClick={() => setingPage(3)}>
+                            {page + 4}
+                        </Button>
+                    </ButtonGroup>
+                    <FaArrowAltCircleRight
+                        onClick={() => setingPage(1)}
+                        size={40}
+                        color="#f00"
+                        style={{ cursor: "pointer" }}
+                    />
+                </SContainPagination>
+            )}
         </SContainHome>
     );
 };
