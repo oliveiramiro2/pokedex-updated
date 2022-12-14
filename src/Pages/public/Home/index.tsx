@@ -12,6 +12,7 @@ import {
     STitle,
     SContainPagination,
 } from "./styled";
+import Footer from "../components/Footer";
 
 const numberCards: number[] = [1, 2, 3, 4, 5, 6];
 
@@ -228,6 +229,7 @@ const HomePublic: React.FC = () => {
                     />
                 </SContainPagination>
             )}
+            <Footer />
         </SContainHome>
     );
 };
