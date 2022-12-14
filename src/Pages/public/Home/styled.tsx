@@ -98,6 +98,7 @@ export const SContainCard = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    cursor: pointer;
 
     & p {
         color: ${props => props.theme.colorPrimary};

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Skeleton, ButtonGroup, Button } from "@mui/material";
+import { Skeleton, ButtonGroup, Button, Modal } from "@mui/material";
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 import Header from "../components/Header";
@@ -13,6 +13,7 @@ import {
     SContainPagination,
 } from "./styled";
 import Footer from "../components/Footer";
+import InfoPoke from "../components/InfoPoke";
 
 const numberCards: number[] = [1, 2, 3, 4, 5, 6];
 
@@ -47,12 +48,14 @@ const HomePublic: React.FC = () => {
     const [pokeAllData, setPokeAllData] = useState<IPokeAllData[]>(
         [] as IPokeAllData[]
     );
+    const [infoData, setInfoData] = useState<IPokeData>({} as IPokeData);
     const [, setForceRenderer] = useState<IPokeData[]>([] as IPokeData[]);
     const [, setForceRendererAll] = useState<IPokeAllData[]>(
         [] as IPokeAllData[]
     );
     const [page, setPage] = useState<number>(0);
     const [search, setSearch] = useState<string>("");
+    const [modal, setModal] = useState<boolean>(false);
 
     useEffect(() => {
         if (makeRequest) {
@@ -93,6 +96,11 @@ const HomePublic: React.FC = () => {
         }
     };
 
+    const openModal: Function = (value: IPokeData) => {
+        setInfoData(value);
+        setModal(true);
+    }
+
     return (
         <SContainHome>
             <Header setSearch={setSearch} />
@@ -106,6 +114,7 @@ const HomePublic: React.FC = () => {
                             <SContainCard
                                 color={value.types[0].type.name}
                                 key={value.id}
+                                onClick={() => openModal(value)}
                             >
                                 <p>{value?.name}</p>
                                 <article>
@@ -149,6 +158,7 @@ const HomePublic: React.FC = () => {
                                       value.name.includes(search) && (
                                           <SContainCard
                                               key={value.url.slice(34, -1)}
+                                              onClick={() => openModal(value)}
                                           >
                                               <p>{value?.name}</p>
                                               <article>
@@ -230,6 +240,9 @@ const HomePublic: React.FC = () => {
                 </SContainPagination>
             )}
             <Footer />
+            <Modal open={modal} onClose={() => setModal(false)}>
+                <InfoPoke info={{...infoData}} setModal={setModal} />
+            </Modal>
         </SContainHome>
     );
 };
